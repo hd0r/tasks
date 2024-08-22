@@ -71,7 +71,7 @@
             cursor: pointer;
         }
         .info i:hover {
-            color: #4CAF50;
+            color: #ffffff;
         }
 
         .info h1 {
@@ -83,7 +83,7 @@
         }
         .info .date {
             font-size: 12px;
-            color: #666;
+            color: #666666;
             padding-left: 10px;
             direction: rtl;
             margin-top: 5px;
@@ -155,7 +155,7 @@
                 let checkElement = document.createElement("i");
                 checkElement.className = "fa-solid fa-check";
                 checkElement.onclick = function () {
-                    item.color = '#4CAF50';
+                    item.color = '#6fd172';
                     localStorage.setItem('tasks', JSON.stringify(tasks));
                     renderTasks();
                 }
@@ -163,7 +163,7 @@
                 let xmarkElement = document.createElement("i");
                 xmarkElement.className = "fa-solid fa-xmark";
                 xmarkElement.onclick = function () {
-                    item.color = 'red';
+                    item.color = '#f13434';
                     localStorage.setItem('tasks', JSON.stringify(tasks));
                     renderTasks();
                 }
@@ -178,8 +178,8 @@
                 divElement.appendChild(trashElement);
                 divElement.appendChild(checkElement);
                 divElement.appendChild(xmarkElement);
-                divElement.appendChild(txtElement);
                 divElement.appendChild(dateElement);
+                divElement.appendChild(txtElement);
                 viwe.appendChild(divElement);
             });
         }
