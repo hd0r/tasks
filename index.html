@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f0f0f0;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+
+        .head {
+            background-color: #4CAF50;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .head h1 {
+            margin: 0;
+            font-size: 22px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .body {
+            background-color: #fff;
+            width: 100%;
+            max-width: 600px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            min-height: 200px;
+        }
+
+        .info {
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .info i {
+            padding-left: 10px;
+            cursor: pointer;
+        }
+        .info i:hover {
+            color: #cc1d1d;
+        }
+
+        .info h1 {
+            text-align: right;
+            font-size: 18px;
+            flex-grow: 1;
+            margin: 0;
+            padding-right: 10px;
+        }
+        .info .date {
+            font-size: 12px;
+            color: #666;
+            margin-right: 10px;
+            direction: rtl;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: #4CAF50;
+            font-size: 24px;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="head">
+        <h1>مهامي</h1>
+        <i class="fa-solid fa-plus" onclick="addImpro()"></i>
+    </div>
+    <div class="body" id="viwe">
+
+    </div>
+    <div class="social-icons">
+        <a href="https://t.me/hd0rr" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://www.instagram.com/hd0rr" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <script>
+        function addImpro() {
+            let imProt = prompt("اضف مهمة")
+            if (imProt) {
+                let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                let currentDate = new Date().toLocaleString();
+                tasks.push(imProt);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                renderTasks();
+            }
+        }
+
+        function renderTasks() {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let viwe = document.getElementById('viwe');
+            viwe.innerHTML = ''; // Clear previous tasks
+
+            tasks.forEach((task, index) => {
+                let divElement = document.createElement("div");
+                divElement.className = "info";
+
+                let trashElement = document.createElement("i");
+                trashElement.className = "fa-solid fa-trash";
+                trashElement.onclick = function () {
+                    tasks.splice(index, 1);
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    renderTasks();
+                }
+
+                let checkElement = document.createElement("i");
+                checkElement.className = "fa-solid fa-check";
+                checkElement.onclick = function () {
+                    this.parentNode.style.backgroundColor = '#4CAF50'                }
+
+                let xmarkElement = document.createElement("i");
+                xmarkElement.className = "fa-solid fa-xmark";
+                xmarkElement.onclick = function () {
+                    this.parentNode.style.backgroundColor = 'red'
+                }
+
+                let txtElement = document.createElement("h1");
+                txtElement.textContent = task;
+
+                let dateElement = document.createElement("span");
+                dateElement.className = "date";
+                dateElement.textContent = item.date;
+                divElement.appendChild(trashElement);
+                divElement.appendChild(checkElement);
+                divElement.appendChild(xmarkElement);
+                divElement.appendChild(txtElement);
+                divElement.appendChild(dateElement);
+                viwe.appendChild(divElement);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            renderTasks();
+        });
+        //
+
+        function addImpro() {
+            let imProt = prompt(""); // يتم عرض مربع الإدخال فارغًا
+            if (imProt) {
+                let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                let currentDate = new Date().toLocaleString(); // الحصول على التاريخ والوقت الحالي
+                tasks.push({ task: imProt, date: currentDate });
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                renderTasks();
+            }
+        }
+
+        function renderTasks() {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let viwe = document.getElementById('viwe');
+            viwe.innerHTML = ''; // مسح المهام السابقة
+
+            tasks.forEach((item, index) => {
+                let divElement = document.createElement("div");
+                divElement.className = "info";
+
+                let trashElement = document.createElement("i");
+                trashElement.className = "fa-solid fa-trash";
+                trashElement.onclick = function () {
+                    tasks.splice(index, 1);
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    renderTasks();
+                }
+
+                let checkElement = document.createElement("i");
+                checkElement.className = "fa-solid fa-check";
+                checkElement.onclick = function () {
+                    this.parentNode.style.backgroundColor = '#4CAF50'
+                }
+
+                let xmarkElement = document.createElement("i");
+                xmarkElement.className = "fa-solid fa-xmark";
+                xmarkElement.onclick = function () {
+                    this.parentNode.style.backgroundColor = 'red'
+                }
+
+                let txtElement = document.createElement("h1");
+                txtElement.textContent = item.task;
+
+                let dateElement = document.createElement("span");
+                dateElement.className = "date";
+                dateElement.textContent = item.date;
+
+                divElement.appendChild(trashElement);
+                divElement.appendChild(checkElement);
+                divElement.appendChild(xmarkElement);
+                divElement.appendChild(txtElement);
+                divElement.appendChild(dateElement);
+                viwe.appendChild(divElement);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            renderTasks();
+        });
+
+    </script>
+</body>
+
+</html>
