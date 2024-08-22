@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,6 +86,7 @@
             color: #666;
             padding-left: 10px;
             direction: rtl;
+            margin-top: 5px;
         }
         .social-icons {
             display: flex;
@@ -106,7 +106,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <div class="head">
@@ -122,27 +121,28 @@
     </div>
 
     <script>
-        //
-
         function addImpro() {
             let imProt = prompt("اضف مهمة");
-            if (imProt) {
+            if (imProt && imProt.trim()) {
                 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
                 let currentDate = new Date().toLocaleString();
-                tasks.push({ task: imProt, date: currentDate.substring(0,11)});
+                tasks.push({ task: imProt.trim(), date: currentDate.substring(0,11), color: '#f9f9f9' });
                 localStorage.setItem('tasks', JSON.stringify(tasks));
                 renderTasks();
+            } else {
+                alert("الرجاء إدخال مهمة صحيحة.");
             }
         }
 
         function renderTasks() {
             let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
             let viwe = document.getElementById('viwe');
-            viwe.innerHTML = ''; // مسح المهام السابقة
+            viwe.innerHTML = '';
 
             tasks.forEach((item, index) => {
                 let divElement = document.createElement("div");
                 divElement.className = "info";
+                divElement.style.backgroundColor = item.color;
 
                 let trashElement = document.createElement("i");
                 trashElement.className = "fa-solid fa-trash";
@@ -155,13 +155,17 @@
                 let checkElement = document.createElement("i");
                 checkElement.className = "fa-solid fa-check";
                 checkElement.onclick = function () {
-                    this.parentNode.style.backgroundColor = '#4CAF50'
+                    item.color = '#4CAF50';
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    renderTasks();
                 }
 
                 let xmarkElement = document.createElement("i");
                 xmarkElement.className = "fa-solid fa-xmark";
                 xmarkElement.onclick = function () {
-                    this.parentNode.style.backgroundColor = 'red'
+                    item.color = 'red';
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    renderTasks();
                 }
 
                 let txtElement = document.createElement("h1");
@@ -174,8 +178,8 @@
                 divElement.appendChild(trashElement);
                 divElement.appendChild(checkElement);
                 divElement.appendChild(xmarkElement);
-                divElement.appendChild(dateElement);
                 divElement.appendChild(txtElement);
+                divElement.appendChild(dateElement);
                 viwe.appendChild(divElement);
             });
         }
@@ -183,8 +187,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             renderTasks();
         });
-
     </script>
 </body>
-
 </html>
